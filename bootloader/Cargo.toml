@@ -1,0 +1,31 @@
+# Crabby OS Bootloader - 32位RISC-V学习版本
+# 这是一个教学用的简单bootloader，逐步学习操作系统启动过程
+
+[package]
+name = "crabby-bootloader"           # bootloader包名
+version = "0.1.0"                    # 版本号
+edition = "2024"                     # Rust 2021版本
+authors = ["CrabbyOS Team"]
+description = "A simple 32-bit RISC-V bootloader for learning purposes"
+
+# 库配置 - 这是一个二进制程序，不是库
+[[bin]]
+name = "bootloader"                  # 生成的可执行文件名
+path = "src/main.rs"                 # 主程序入口
+
+# 依赖项 - 目前不需要任何外部依赖
+# 我们将使用no_std环境，只依赖core库
+[dependencies]
+# 暂时为空，后续可能添加一些底层库
+
+# 构建配置
+[profile.dev]
+opt-level = 0                        # 调试版本不优化，便于调试
+panic = "abort"                      # panic时直接终止，不展开栈
+lto = false                          # 不进行链接时优化
+
+[profile.release]
+opt-level = "s"                      # 发布版本优化大小
+panic = "abort"                      # panic时直接终止
+lto = true                           # 启用链接时优化
+codegen-units = 1                    # 单个代码生成单元，更好的优化
